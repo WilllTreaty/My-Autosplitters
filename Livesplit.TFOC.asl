@@ -12,7 +12,7 @@ state("TFOC")
 
 startup
 {
-	vars.firstCheckpoints = new List<string>{"Checkpoint_9936", "Checkpoint_14598", "istentLevel.Checkpoint_6518", "istentLevel.Checkpoint_658", "m.TheWorld:PersistentLevel.Checkpoint_4757", "ersistentLevel.Checkpoint_11363", "el.Checkpoint_6625", "ersistentLevel.Checkpoint_10515", "ersistentLevel.Checkpoint_2840", "heWorld:PersistentLevel.Checkpoint_1946", "d:PersistentLevel.Checkpoint_13220", "Checkpoint_6819", "Checkpoint_5739", "ckpoint_14654", "Level.Checkpoint_2735", "ersistentLevel.Checkpoint_11210", "el.Checkpoint_11567"};
+	vars.notSplitCheckpoints = new List<string>{"Checkpoint_9936", "Checkpoint_14598", "istentLevel.Checkpoint_6518", "istentLevel.Checkpoint_658", "m.TheWorld:PersistentLevel.Checkpoint_4757", "ersistentLevel.Checkpoint_11363", "el.Checkpoint_6625", "ersistentLevel.Checkpoint_10515", "ersistentLevel.Checkpoint_2840", "heWorld:PersistentLevel.Checkpoint_1946", "d:PersistentLevel.Checkpoint_13220", "Checkpoint_6819", "Checkpoint_5739", "ckpoint_14654", "Level.Checkpoint_2735", "ersistentLevel.Checkpoint_11210", "el.Checkpoint_11567"};
 	vars.counter = 0;
 
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
@@ -29,7 +29,7 @@ update
 split
 {
 	if (!settings["onlychaptersplit"]) {
-		if (old.checkpoint != current.checkpoint && !vars.firstCheckpoints.Contains(current.checkpoint)) {
+		if (old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint)) {
 			return true;
 		}
 	} 
