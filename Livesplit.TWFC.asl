@@ -29,7 +29,7 @@ split
 		}
 	}
 
-	if (current.state == 628 && current.cutscene != 0 && old.state != current.state && !vars.notSplitCheckpoints.Contains(current.checkpoint)) {
+	if (current.state == 628 && old.map != 1597334542 && old.map != 1597333774 && current.cutscene != 0 && old.state != current.state && !vars.notSplitCheckpoints.Contains(current.checkpoint)) {
 		return true;
 	} else if (current.map == 1597334542 && old.omegasupreme != current.omegasupreme && current.state == 632 && current.omegasupreme == 3) {
 		return true;
