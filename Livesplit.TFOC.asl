@@ -3,11 +3,11 @@
 
 state("TFOC")
 {
-	string100 checkpoint: "TFOC.exe", 0x015D1FDC, 0x1AC, 0x38, 0x68;
-	int mapLoad: "TFOC.exe", 0x015D1FDC, 0x69C, 0xC, 0x0;
-	bool loadless: "TFOC.exe", 0x015D28BC, 0x14, 0x60;
-	float megatron: "TFOC.exe", 0x01611D0C, 0x3C, 0x430, 0x370, 0x30, 0x350;
+	bool Loading: "TFOC.exe", 0x015D28BC, 0x14, 0x60;
 	int loadId: "TFOC.exe", 0x015D1FDC, 0x69C, 0x7C;
+	int mapLoad: "TFOC.exe", 0x015D1FDC, 0x69C, 0xC, 0x0;
+	string100 checkpoint: "TFOC.exe", 0x015D1FDC, 0x1AC, 0x38, 0x68;
+	float megatron: "TFOC.exe", 0x01611D0C, 0x3C, 0x430, 0x370, 0x30, 0x350;
 }
 
 startup
@@ -34,7 +34,7 @@ split
 		}
 	} 
 
-	if (current.loadless && current.mapLoad == 1 && old.mapLoad != current.mapLoad)  {
+	if (current.Loading && current.mapLoad == 1 && old.mapLoad != current.mapLoad)  {
 		return true;
 	} else if (current.checkpoint == "el.Checkpoint_1523" && vars.counter == 4) {
 		vars.counter = 0;
@@ -64,9 +64,9 @@ reset
 
 isLoading
 {
-	if (current.loadless) {	
+	if (current.Loading) {	
 		vars.counter = 0;
-   		return current.loadless;
+   		return current.Loading;
 	} else {
 		return false;
 	}
