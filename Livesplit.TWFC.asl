@@ -20,9 +20,12 @@ startup
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at end of each chapter instead of doing at every new checkpoint as well.");
 
-	settings.Add("undosplit", false, "Undo Split");
+	settings.Add("undosplit", false, "Undo Split if aftertime death happens");
 	settings.SetToolTip("undosplit", "Autosplitter undo's a split once if runner dies after finishing either Omega Supreme boss fight at Ch5 or Trypticon boss fight at Ch10.");
  	vars.TimerModel = new TimerModel { CurrentState = timer };
+
+	settings.Add("cybertron%", false, "Cybertron%");
+	settings.SetToolTip("cybertron%", "Activate this for both WFC and FOC autosplitters seperately IF ONLY you're going to do a Cybertron% run. Also if this setting is activated for any game, that game's reset option won't work until this setting is turned off in order to prevent run resets while switching games.");
 }
 
 update
@@ -66,7 +69,7 @@ start
 
 reset
 {
-	if (current.loadId == 16 || current.loadId == 2) {
+	if ((current.loadId == 16 || current.loadId == 2) && !settings["cybertron%"]) {
 		return true;
 	} else {
 		return false;
@@ -76,4 +79,9 @@ reset
 isLoading
 {
 	return current.Loading;
+}
+
+exit
+{
+	timer.IsGameTimePaused = true;
 }
