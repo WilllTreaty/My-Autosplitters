@@ -18,14 +18,11 @@ startup
 
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at end of each chapter instead of doing at every new checkpoint as well.");
-
-	settings.Add("cybertron%", false, "Cybertron%");
-	settings.SetToolTip("cybertron%", "Activate this for both WFC and FOC autosplitters seperately IF ONLY you're going to do a Cybertron% run. Also if this setting is activated for any game, that game's reset option won't work until this setting is turned off in order to prevent run resets while switching games.");
 }
 
 update
 {
-	if (vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["cybertron%"]) {
+	if (!string.IsNullOrEmpty(current.checkpoint)) {
 		vars.stopTimer = false;
 	}
 
@@ -37,12 +34,12 @@ update
 split
 {
 	if (!settings["onlychaptersplit"]) {
-		if (timer.CurrentTime.GameTime.Value.TotalSeconds > 1 && old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !string.IsNullOrEmpty(current.checkpoint)) {
+		if (timer.CurrentTime.GameTime.Value.TotalSeconds > 1 && old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !string.IsNullOrEmpty(old.checkpoint) && !string.IsNullOrEmpty(current.checkpoint)) {
 			return true;
 		}
 	} 
 
-	if (current.Loading && current.loadId != 2 && current.loadId != 8 && current.mapLoad == 1 && old.mapLoad != current.mapLoad && !string.IsNullOrEmpty(current.checkpoint))  {
+	if (current.Loading && (current.loadId == 11 || current.loadId == 12) && old.Loading != current.Loading && !string.IsNullOrEmpty(current.checkpoint) && !string.IsNullOrEmpty(old.checkpoint))  {
 		return true;
 	} else if (current.checkpoint == "el.Checkpoint_1523" && vars.counter == 4) {
 		vars.counter = 0;
@@ -63,7 +60,7 @@ start
 
 reset
 {
-	if (current.loadId == 9 || current.loadId == 2 && !settings["cybertron%"]) {
+	if ((current.loadId == 9 || current.loadId == 2) && !string.IsNullOrEmpty(current.checkpoint)) {
 		return true;
 	} else {
 		return false;
@@ -82,8 +79,6 @@ isLoading
 
 exit
 {
-	if (settings["cybertron%"]) {
-		vars.stopTimer = true;
-	}
+	vars.stopTimer = true;
 	timer.IsGameTimePaused = true;
 }
