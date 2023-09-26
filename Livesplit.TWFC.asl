@@ -1,3 +1,7 @@
+/*
+ *	Autosplitter and Loadless Remover done by Failracer, KC and WillTreaty
+ */
+
 state("TWFC")
 {
 	int state : "TWFC.exe", 0x021108C4, 0x5D4;
