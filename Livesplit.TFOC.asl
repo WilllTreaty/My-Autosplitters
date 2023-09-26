@@ -1,3 +1,7 @@
+/*
+ *	Autosplitter and Loadless Remover done by Breadn and WillTreaty
+ */
+
 state("TFOC")
 {
 	int Loading: "TFOC.exe", 0x0160F728, 0x3C, 0x4;
