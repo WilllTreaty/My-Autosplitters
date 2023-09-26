@@ -1,3 +1,7 @@
+/*
+ *	Autosplitter and Loadless Remover done by Failracer and WillTreaty
+ */
+
 state("SpaceMarine")
 {
 	int loadingScreen : "SpaceMarine.exe", 0x018548D8;
