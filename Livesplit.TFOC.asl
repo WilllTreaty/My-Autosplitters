@@ -1,6 +1,3 @@
-/*	Loadless Remover and Autosplitter done by WillTreaty and tested 
-        by Breadn11. Currently works for all known versions of the game.	*/
-
 state("TFOC")
 {
 	int Loading: "TFOC.exe", 0x0160F728, 0x3C, 0x4;
