@@ -1,3 +1,7 @@
+/*
+ *	Autosplitter and Loadless Remover done by WillTreaty
+ */
+
 state("TransformersDevastation")
 {
 	int missionComplete : 0xA6A684;
