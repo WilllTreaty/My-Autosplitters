@@ -25,7 +25,7 @@ startup
 
 split 
 {
-	if(settings["ilmode"]) {
+	if (settings["ilmode"]) {
 		if (old.checkpoint != -1 && old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
 			return true;
 		} else if (old.checkpoint != -1 && old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
@@ -37,7 +37,7 @@ split
 		}
 	}
 	
-	if(!settings["ilmode"]) {
+	if (!settings["ilmode"]) {
 		if (old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
 			return true;
 		} else if (old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {

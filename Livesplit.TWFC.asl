@@ -24,19 +24,19 @@ startup
 
 	settings.Add("undosplit", false, "Undo Split if aftertime death happens");
 	settings.SetToolTip("undosplit", "Autosplitter undo's a split once if runner dies after finishing either Omega Supreme boss fight at Ch5 or Trypticon boss fight at Ch10.");
- 	vars.TimerModel = new TimerModel { CurrentState = timer };
+	vars.TimerModel = new TimerModel { CurrentState = timer };
 	
-    vars.splitsCheckpointId = new Dictionary<int, string>();
-    vars.splitsMapName = new Dictionary<string, string>();
+	vars.splitsCheckpointId = new Dictionary<int, string>();
+	vars.splitsMapName = new Dictionary<string, string>();
 
-    Action<string, string, string, int, string> AddSplit = (chapter, splitId, splitDescription, checkpoint, mapName) => {
-        splitId = chapter + "." + splitId;
+	Action<string, string, string, int, string> AddSplit = (chapter, splitId, splitDescription, checkpoint, mapName) => {
+		splitId = chapter + "." + splitId;
 		
-        vars.splitsCheckpointId.Add(checkpoint, splitId);
-        vars.splitsMapName.Add(splitId, mapName);
+		vars.splitsCheckpointId.Add(checkpoint, splitId);
+		vars.splitsMapName.Add(splitId, mapName);
 
-        settings.Add(splitId, true, splitDescription, chapter);
-    };
+		settings.Add(splitId, true, splitDescription, chapter);	
+	};
 	
 	settings.Add("splits", true, "Checkpoint Splits");
 	

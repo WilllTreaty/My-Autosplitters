@@ -11,7 +11,7 @@ state("TransformersDevastation")
 
 split
 {
-	if(current.missionComplete == 1 && old.missionComplete != current.missionComplete) {
+	if (current.missionComplete == 1 && old.missionComplete != current.missionComplete) {
 		return true;
 	} else { 
 		return false;
@@ -29,7 +29,7 @@ start
 
 isLoading 
 {
-	if(current.loading == 1) {
+	if (current.loading == 1) {
 		return true;
 	} else {
 		return false;

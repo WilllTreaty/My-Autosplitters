@@ -78,7 +78,7 @@ isLoading
 {
 	if (current.Loading == 2 || vars.stopTimer) {	
 		vars.counter = 0;
-   		return current.Loading == 2 || vars.stopTimer;
+		return current.Loading == 2 || vars.stopTimer;
 	} else {
 		return false;
 	}

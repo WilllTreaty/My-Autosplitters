@@ -72,15 +72,15 @@ state("speed", "v1.3")
 init
 {
 	//Original 1.2 speed.exe
-	if(modules.First().ModuleMemorySize == 0x67F000) {
+	if (modules.First().ModuleMemorySize == 0x67F000) {
 		version = "v1.2";
 	}
 	//Original 1.3 speed.exe
-	else if(modules.First().ModuleMemorySize == 0x680000) {
+	else if (modules.First().ModuleMemorySize == 0x680000) {
 		version = "v1.3";
 	}
 	//Cracked 1.3 speed.exe (RELOADED)
-	else if(modules.First().ModuleMemorySize == 0x678E4E) {
+	else if (modules.First().ModuleMemorySize == 0x678E4E) {
 		version = "v1.3";
 	}
 }
@@ -151,7 +151,7 @@ startup
 
 update 
 {
-	if(version == "") {
+	if (version == "") {
 		return false;
 	}
 }
@@ -159,13 +159,13 @@ update
 isLoading
 {
 	//Every normal loading screen
-	if(current.loadingScreen1 == 32767 || current.loadingScreen2 == 24 || current.loadingScreen2 == 0 || current.gamestateID == 16) {
+	if (current.loadingScreen1 == 32767 || current.loadingScreen2 == 24 || current.loadingScreen2 == 0 || current.gamestateID == 16) {
 		return true;
 	}
 	//Special loading screen being: entering the safe house for the first time and entering free roam for the first time
-	else if(current.gamestateID == 32) {
+	else if (current.gamestateID == 32) {
 		//Exclude FMVs from being counted to loadless
-		if(current.loadingScreen2 == 34) {
+		if (current.loadingScreen2 == 34) {
 			return false;
 		} else {
 			return true;
@@ -178,11 +178,11 @@ isLoading
 start 
 {
 	//Quick race menu start
-	if(version == "v1.2" && ((current.selectedMenu == 3 && current.start == 60 && old.start != current.start) || (current.selectedMenu == 3 && old.selectedMenu != current.selectedMenu))) {
+	if (version == "v1.2" && ((current.selectedMenu == 3 && current.start == 60 && old.start != current.start) || (current.selectedMenu == 3 && old.selectedMenu != current.selectedMenu))) {
 		return true;
 	} 
 	//Direct career or challenege series start
-	else if((current.selectedMenu == 1 && old.inShop == 88 && current.inShop == 21) || (current.selectedMenu == 2 && current.loadingScreen2 == 24)) {
+	else if ((current.selectedMenu == 1 && old.inShop == 88 && current.inShop == 21) || (current.selectedMenu == 2 && current.loadingScreen2 == 24)) {
 		return true;
 	} else {
 		return false;
@@ -192,59 +192,59 @@ start
 split
 {
 	//Split after first lap glitches
-	if(version == "v1.2" && old.fmvName != current.fmvName && current.fmvName == "storyfmv_rac01" && settings["lapglitchsplit"]) {
+	if (version == "v1.2" && old.fmvName != current.fmvName && current.fmvName == "storyfmv_rac01" && settings["lapglitchsplit"]) {
 		return true;
 	}
 	//Split when resuming career
-	else if(version == "v1.2" && timer.CurrentSplitIndex > 0 && old.selectedMenu != current.selectedMenu && current.selectedMenu == 1 && settings["resumecareersplit"]) {
+	else if (version == "v1.2" && timer.CurrentSplitIndex > 0 && old.selectedMenu != current.selectedMenu && current.selectedMenu == 1 && settings["resumecareersplit"]) {
 		return true;
 	}
 	//Split before Ronnie prologue race
-	else if(old.fmvName != current.fmvName && current.fmvName == "storyfmv_cro06" && settings["introsplit"]) {
+	else if (old.fmvName != current.fmvName && current.fmvName == "storyfmv_cro06" && settings["introsplit"]) {
 		return true;
 	}
 	//Split after Razor prologue race
-	else if(old.fmvName != current.fmvName && current.fmvName == "storyfmv_bus12" && settings["prologuesplit"]) {
+	else if (old.fmvName != current.fmvName && current.fmvName == "storyfmv_bus12" && settings["prologuesplit"]) {
 		return true;
 	}
 	//Split after entering Safe House for the first time
-	else if(old.fmvName != current.fmvName && current.fmvName == "storyfmv_saf25" && settings["safehousesplit"]) {
+	else if (old.fmvName != current.fmvName && current.fmvName == "storyfmv_saf25" && settings["safehousesplit"]) {
 		return true;
 	}
 	//Split when exiting car lot or upgrade shop
-	else if((old.inShop == 111 || old.inShop == 72) && old.inShop != current.inShop && settings["shopsplit"]) {
+	else if ((old.inShop == 111 || old.inShop == 72) && old.inShop != current.inShop && settings["shopsplit"]) {
 		return true;
 	}
 	//Split when winning a race
-	else if(current.raceState == 256 && old.raceState == 0 && current.onRace == 257 && settings["racesplit"]) {
+	else if (current.raceState == 256 && old.raceState == 0 && current.onRace == 257 && settings["racesplit"]) {
 		return true;
 	}
 	//Split when triggering a free roam camera
-	else if(current.raceState == 256 && old.raceState == 0 && current.onRace != 257 && settings["camerasplit"]) {
+	else if (current.raceState == 256 && old.raceState == 0 && current.onRace != 257 && settings["camerasplit"]) {
 		return true;
 	}
 	//Split when winning the last boss race
-	else if(current.raceState == 256 && old.raceState == 0 && current.onRace == 257 && (vars.lastBossRaces.Contains(current.trackID) || vars.lastBossRaces.Contains(current.trackID.Substring(0, current.trackID.Length - 4))) && !settings["racesplit"] && settings["bosssplit"]) {
+	else if (current.raceState == 256 && old.raceState == 0 && current.onRace == 257 && (vars.lastBossRaces.Contains(current.trackID) || vars.lastBossRaces.Contains(current.trackID.Substring(0, current.trackID.Length - 4))) && !settings["racesplit"] && settings["bosssplit"]) {
 		return true;
 	}
 	//Split after choosing markers
-	else if(!string.IsNullOrEmpty(old.fmvName) && !old.fmvName.Contains("blacklist_15") && old.fmvName.Contains("blacklist_") && old.fmvName != current.fmvName && settings["markersplit"]) {
+	else if (!string.IsNullOrEmpty(old.fmvName) && !old.fmvName.Contains("blacklist_15") && old.fmvName.Contains("blacklist_") && old.fmvName != current.fmvName && settings["markersplit"]) {
 		return true;
 	}
 	//Split after escaping Police Chases
-	else if(old.onChase == 1 && current.onChase == 0 && current.onRace != 257 && (old.loadingScreen1 != 32767 && old.loadingScreen2 != 24 && old.loadingScreen2 != 0 && old.gamestateID != 16) && (current.trackID != "epic_pursuit" && current.trackID != "epic_pursuit.vlt") && settings["copchasesplit"]) {
+	else if (old.onChase == 1 && current.onChase == 0 && current.onRace != 257 && (old.loadingScreen1 != 32767 && old.loadingScreen2 != 24 && old.loadingScreen2 != 0 && old.gamestateID != 16) && (current.trackID != "epic_pursuit" && current.trackID != "epic_pursuit.vlt") && settings["copchasesplit"]) {
 		return true;
 	}
 	//Split after getting busted
-	else if(current.onChase == 1 && current.loadingScreen1 == 32767 && old.loadingScreen1 != current.loadingScreen1 && settings["bustedsplit"]) {
+	else if (current.onChase == 1 && current.loadingScreen1 == 32767 && old.loadingScreen1 != current.loadingScreen1 && settings["bustedsplit"]) {
 		return true;
 	}
 	//Split when game over screen appears
-	else if(current.gameover == 10 && old.gameover != current.gameover && settings["gameoversplit"]) {
+	else if (current.gameover == 10 && old.gameover != current.gameover && settings["gameoversplit"]) {
 		return true;
 	}
 	//new split on final bridge jump NIS
-	else if(old.nisName != current.nisName && current.nisName == "EndingNis04" && settings["bridgejumpsplit"]) {
+	else if (old.nisName != current.nisName && current.nisName == "EndingNis04" && settings["bridgejumpsplit"]) {
 		return true;
 	} else {
 		return false;

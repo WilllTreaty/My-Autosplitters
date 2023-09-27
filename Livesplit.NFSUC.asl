@@ -4,8 +4,8 @@
 
 state("nfs") 
 {
-    int loading: "nfs.exe", 0xF33FEC, 0x4C0;
-    byte loadingEverything: "nfs.exe", 0x9A530C;
+	int loading: "nfs.exe", 0xF33FEC, 0x4C0;
+	byte loadingEverything: "nfs.exe", 0x9A530C;
 	int completed: "nfs.exe", 0x1F7D078;
 	string9 movie: "nfs.exe", 0xF78168, 0x114, 0x40F;
 	string4 raceName: "nfs.exe", 0x9AF5A0;
@@ -112,7 +112,7 @@ startup
 
 start
 {
-    return current.loadingEverything == 96;
+	return current.loadingEverything == 96;
 }
 
 split
@@ -130,10 +130,10 @@ split
 
 isLoading 
 {
-    return current.loadingEverything != 0;
+	return current.loadingEverything != 0;
 }
 
 exit
 {
-    timer.IsGameTimePaused = false;
+	timer.IsGameTimePaused = false;
 }
