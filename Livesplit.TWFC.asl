@@ -19,8 +19,6 @@ startup
 	vars.notSplitCheckpoints = new List<int>{1882469686, 1342190386, 1882535992, 3289654, 960049713, 875575352, 892548153, 842281267, 1882732341, 892614708, 943272500, 55, 1882470450, 1882470457, 1882207284, 1882338353, 1882338096};
 	vars.stopTimer = false;
 
-	vars.Stopwatch = new Stopwatch();
-
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at end of each chapter instead of doing at every new checkpoint as well.");
 
@@ -208,10 +206,6 @@ update
 	if ((old.loadId == 16 || old.loadId == 15) && current.loadId == 0) {
 		vars.stopTimer = false;
 	}
-	
-	if (vars.Stopwatch.ElapsedMilliseconds >= 1000) {
-		vars.Stopwatch.Reset();
-	}
 }
 
 split
@@ -244,8 +238,7 @@ split
 			return true;
 		}
 		//normal
-		else if (!vars.Stopwatch.IsRunning && timer.CurrentTime.GameTime.Value.TotalSeconds >= 1 && settings[vars.splitsCheckpointId[current.checkpoint]] && vars.splitsMapName[vars.splitsCheckpointId[current.checkpoint]] == current.map && current.cutscene == 0 && old.checkpoint != current.checkpoint && old.checkpoint != 0) {
-			vars.Stopwatch.Start();
+		else if (timer.CurrentTime.GameTime.Value.TotalSeconds >= 1 && settings[vars.splitsCheckpointId[current.checkpoint]] && vars.splitsMapName[vars.splitsCheckpointId[current.checkpoint]] == current.map && current.cutscene == 0 && old.checkpoint != current.checkpoint && old.checkpoint != 0) {
 			return true;
 		} else {
 			return false;
@@ -293,7 +286,4 @@ exit
 {
 	vars.stopTimer = true;
 	timer.IsGameTimePaused = true;
-}"		
-, 
-fgh
-ğ
+}

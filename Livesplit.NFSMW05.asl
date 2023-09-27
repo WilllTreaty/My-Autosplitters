@@ -52,8 +52,8 @@ state("speed", "v1.3")
 	string11 nisName : 0x50DAC8, 0xC, 0x10, 0x4;
 	
 	//Describes the loading screen state
-    int loadingScreen1 : "speed.exe", 0x511F10;
-    int loadingScreen2 : "speed.exe", 0x512310;
+	int loadingScreen1 : "speed.exe", 0x511F10;
+	int loadingScreen2 : "speed.exe", 0x512310;
 	
 	//Displays the current state of the game and also helps with the loadless timer
 	int gamestateID : "speed.exe", 0x51DCF4;
@@ -74,15 +74,15 @@ init
 	//Original 1.2 speed.exe
 	if(modules.First().ModuleMemorySize == 0x67F000) {
 		version = "v1.2";
-    }
+	}
 	//Original 1.3 speed.exe
-    else if(modules.First().ModuleMemorySize == 0x680000) {
+	else if(modules.First().ModuleMemorySize == 0x680000) {
 		version = "v1.3";
 	}
-    //Cracked 1.3 speed.exe (RELOADED)
-    else if(modules.First().ModuleMemorySize == 0x678E4E) {
-        version = "v1.3";
-    }
+	//Cracked 1.3 speed.exe (RELOADED)
+	else if(modules.First().ModuleMemorySize == 0x678E4E) {
+		version = "v1.3";
+	}
 }
 
 startup
@@ -131,10 +131,10 @@ startup
 	settings.SetToolTip("camerasplit", "Split when completing a Speedtrap Milestone in free roam.");
 
 	settings.Add("bosssplit", false, "Boss Split");
- 	settings.SetToolTip("bosssplit", "Split when defeating a boss by winning the last boss race. Does nothing if Race Split setting is also activated.");
+	settings.SetToolTip("bosssplit", "Split when defeating a boss by winning the last boss race. Does nothing if Race Split setting is also activated.");
 
 	settings.Add("markersplit", false, "Marker Split");
- 	settings.SetToolTip("markersplit", "Split on the first loading screen after choosing markers.");
+	settings.SetToolTip("markersplit", "Split on the first loading screen after choosing markers.");
 
 	settings.Add("copchasesplit", true, "Police Chase Split");
 	settings.SetToolTip("copchasesplit", "Split when you escape a police chase.");
@@ -246,8 +246,7 @@ split
 	//new split on final bridge jump NIS
 	else if(old.nisName != current.nisName && current.nisName == "EndingNis04" && settings["bridgejumpsplit"]) {
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }
