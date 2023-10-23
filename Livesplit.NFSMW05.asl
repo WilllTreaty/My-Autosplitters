@@ -106,46 +106,49 @@ startup
 		"1_2_3_sprint"
 	};
 
-	settings.Add("lapglitchsplit", true, "First Lap Glitches Split");
+	settings.Add("12specific", true, "1.2 Specific Settings");
+	settings.Add("commonsettings", true, "Common Settings");
+	
+	settings.Add("lapglitchsplit", true, "First Lap Glitches Split", "12specific");
 	settings.SetToolTip("lapglitchsplit", "Split when you start career after first lap glitches.");
 	
-	settings.Add("resumecareersplit", false, "Mid Run Lap Glitches Split");
+	settings.Add("resumecareersplit", false, "Mid Run Lap Glitches Split", "12specific");
 	settings.SetToolTip("resumecareersplit", "Split when you resume career after doing lap glitches mid run.");
 	
-	settings.Add("introsplit", true, "Intro Split");
+	settings.Add("introsplit", true, "Intro Split", "commonsettings");
 	settings.SetToolTip("introsplit", "Split after the partial race with the intro cutscene.");
 	
-	settings.Add("prologuesplit", true, "Prologue Split");
+	settings.Add("prologuesplit", true, "Prologue Split", "commonsettings");
 	settings.SetToolTip("prologuesplit", "Split after the last prologue race with Razor.");
 	
-	settings.Add("safehousesplit", true, "Safe House Split");
+	settings.Add("safehousesplit", true, "Safe House Split", "commonsettings");
 	settings.SetToolTip("safehousesplit", "Split when you enter safe house for the first time after buying your starter car.");
 	
-	settings.Add("shopsplit", false, "Shop Split");
+	settings.Add("shopsplit", false, "Shop Split", "commonsettings");
 	settings.SetToolTip("shopsplit", "Split when you exit a car lot or an upgrade shop.");
 	
-	settings.Add("racesplit", true, "Race Split");
+	settings.Add("racesplit", true, "Race Split", "commonsettings");
 	settings.SetToolTip("racesplit", "Split when you win a race.");
 	
-	settings.Add("camerasplit", true, "Camera Split");
+	settings.Add("camerasplit", true, "Camera Split", "commonsettings");
 	settings.SetToolTip("camerasplit", "Split when completing a Speedtrap Milestone in free roam.");
 
-	settings.Add("bosssplit", false, "Boss Split");
+	settings.Add("bosssplit", false, "Boss Split", "commonsettings");
 	settings.SetToolTip("bosssplit", "Split when defeating a boss by winning the last boss race. Does nothing if Race Split setting is also activated.");
 
-	settings.Add("markersplit", false, "Marker Split");
+	settings.Add("markersplit", false, "Marker Split", "commonsettings");
 	settings.SetToolTip("markersplit", "Split on the first loading screen after choosing markers.");
 
-	settings.Add("copchasesplit", true, "Police Chase Split");
+	settings.Add("copchasesplit", true, "Police Chase Split", "commonsettings");
 	settings.SetToolTip("copchasesplit", "Split when you escape a police chase.");
 	
-	settings.Add("bustedsplit", false, "Busted Split");
+	settings.Add("bustedsplit", false, "Busted Split", "commonsettings");
 	settings.SetToolTip("bustedsplit", "Split after getting busted.");
 	
-	settings.Add("gameoversplit", false, "Game Over Split");
+	settings.Add("gameoversplit", false, "Game Over Split", "commonsettings");
 	settings.SetToolTip("gameoversplit", "Split when the game over screen appears. Intended to be used for Career Bad Ending category.");
 	
-	settings.Add("bridgejumpsplit", true, "Bridge Jump Split");
+	settings.Add("bridgejumpsplit", true, "Bridge Jump Split", "commonsettings");
 	settings.SetToolTip("bridgejumpsplit", "Split when you trigger the bridge jump cutscene.");
 }
 
