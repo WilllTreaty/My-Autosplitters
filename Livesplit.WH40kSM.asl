@@ -14,7 +14,7 @@ state("SpaceMarine")
 startup
 {
 	vars.notSplitCheckpoints = new List<int>{-1, 0, 260};
-	vars.chapterStarts = new List<int>{65653, 918178, 1313668, 95, 461870, 1769871, 2490574, 47, 853497, 2229614, 3211544, 4063348, 4718762, 1564, 329029, 1311610};
+	vars.chapterStarts = new List<int>{65653, 918178, 1313668, 95, 461870, 1769871, 2490574, 47, 853497, 2229614, 3211544, 4063348, 4787830, 1564, 329029, 1311610};
 
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at start of each new chapter instead of doing at every new checkpoint as well.");

@@ -19,7 +19,7 @@ init
 startup
 {
 	settings.Add("onlyeventsplit", false, "Only Event Split");
-	settings.SetToolTip("onlyeventsplit", "Split when only player finishes an event, final split is still automatic");
+	settings.SetToolTip("onlyeventsplit", "Split only when player finishes an event, final split is still automatic and at finish line.");
 }
 
 update
