@@ -4,12 +4,10 @@
 
 state("nfs") 
 {
-	int loading: "nfs.exe", 0xF33FEC, 0x4C0;
-	byte loadingEverything: "nfs.exe", 0x9A530C;
-	int completed: "nfs.exe", 0x1F7D078;
-	string9 movie: "nfs.exe", 0xF78168, 0x114, 0x40F;
-	string4 raceName: "nfs.exe", 0x9AF5A0;
-	string12 raceNameButCooler: "nfs.exe", 0x9AF564, 0x18, 0x3C;
+	byte loadingEverything: "nfs.exe", 0x9A530C; //no wfx version
+	int completed: "nfs.exe", 0x9E6DBC, 0x74; //fix
+	string9 movie: "nfs.exe", 0xF78168, 0x114, 0x40F; //fix
+	string12 raceNameButCooler: "nfs.exe", 0x99B7E4, 0x18, 0x3C;
 }  
 
 startup
@@ -117,7 +115,7 @@ start
 
 split
 {
-	if (settings[current.raceNameButCooler] && current.completed == 14260760 && current.completed != old.completed && old.completed != 1) {
+	if (settings[current.raceNameButCooler] && current.completed == 23 && current.completed != old.completed) {
 		return true;
 	} else if (settings["showdown"] && current.raceNameButCooler.Equals("E315.vlt") && current.movie.Equals("Storey_35") && current.movie != old.movie) {
 		return true;

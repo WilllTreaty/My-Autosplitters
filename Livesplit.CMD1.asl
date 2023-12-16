@@ -1,5 +1,5 @@
 /*
- *	Autosplitter and Loadless done by WillTreaty
+ *	Autosplitter and Loadless done by coyotl, Failracer and WillTreaty
  */
 
 state("dirt")
