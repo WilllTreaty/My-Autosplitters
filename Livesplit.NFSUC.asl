@@ -4,10 +4,10 @@
 
 state("nfs") 
 {
-	byte loadingEverything: "nfs.exe", 0x9A530C; //no wfx version
-	int completed: "nfs.exe", 0x9E6DBC, 0x74; //fix
-	string9 movie: "nfs.exe", 0xF78168, 0x114, 0x40F; //fix
 	string12 raceNameButCooler: "nfs.exe", 0x99B7E4, 0x18, 0x3C;
+	int gameState: "nfs.exe", 0xF5DF00;
+	byte completed: "nfs.exe", 0x9E5414, 0xB4;
+	byte loadingEverything: "nfs.exe", 0x9A530C;
 }  
 
 startup
@@ -25,7 +25,6 @@ startup
 	settings.Add("cr_c_03.vlt", true, "Ocean & Wilson", "splits");
 	settings.Add("hb_c_04.vlt", true, "West I-20", "splits");
 	settings.Add("or_c_07.vlt", true, "South Lawrence", "splits");
-	settings.Add("cr_c_04.vlt", true, "Jackson & Veteran", "splits");
 	settings.Add("cts_c_02.vlt", true, "West Water Street", "splits");
 	settings.Add("es_c_02.vlt", true, "West Alena", "splits");
 	settings.Add("cts_c_01.vlt", true, "East Konopa", "splits");
@@ -107,17 +106,18 @@ startup
 	settings.Add("showdown", true, "Showdown (experimental)", "splits");
 	settings.SetToolTip("showdown", "Split after pressing continue button in final event as it's determined on src page.");
 }
-
 start
 {
-	return current.loadingEverything == 96;
+	if ((current.gameState != old.gameState && old.gameState == 412) || (old.gameState == 56 && current.loadingEverything == 96)) {
+		return true;
+	}
 }
 
 split
 {
-	if (settings[current.raceNameButCooler] && current.completed == 23 && current.completed != old.completed) {
+	if (settings[current.raceNameButCooler] && ((current.raceNameButCooler.Contains("E") && old.gameState != current.gameState && current.gameState == 859) || (old.completed != current.completed && (current.completed == 1 || current.completed == 2) && current.gameState != 863))) {
 		return true;
-	} else if (settings["showdown"] && current.raceNameButCooler.Equals("E315.vlt") && current.movie.Equals("Storey_35") && current.movie != old.movie) {
+	} else if (settings["showdown"] && current.raceNameButCooler.Equals("E315.vlt") && (current.gameState == 32 || current.gameState == 31) && current.gameState != old.gameState) {
 		return true;
 	} else if (settings["prologue"] && old.raceNameButCooler.Equals("E002.vlt") && current.raceNameButCooler.Equals("sp_c_12.vlt")) {
 		return true;
