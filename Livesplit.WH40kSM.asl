@@ -23,12 +23,21 @@ startup
 	settings.SetToolTip("ilmode", "This option shouldn't be activated unless attempting IL runs.");
 }
 
+update
+{
+	if (timer.CurrentSplitIndex == 0) {
+		vars.notSplitCheckpoints = new List<int>{-1, 0, 260};
+	}
+}
+
 split 
 {
 	if (settings["ilmode"]) {
 		if (old.checkpoint != -1 && old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
+			vars.notSplitCheckpoints.Add(current.checkpoint);
 			return true;
 		} else if (old.checkpoint != -1 && old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
+			vars.notSplitCheckpoints.Add(current.checkpoint);
 			return true;
 		} else if (current.checkpoint == 1314234 && current.finalSplit == 3 && old.finalSplit != current.finalSplit) {
 			return true;
@@ -39,8 +48,10 @@ split
 	
 	if (!settings["ilmode"]) {
 		if (old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
+			vars.notSplitCheckpoints.Add(current.checkpoint);
 			return true;
 		} else if (old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
+			vars.notSplitCheckpoints.Add(current.checkpoint);
 			return true;
 		} else if (current.checkpoint == 1314234 && current.finalSplit == 3 && old.finalSplit != current.finalSplit) {
 			return true;
