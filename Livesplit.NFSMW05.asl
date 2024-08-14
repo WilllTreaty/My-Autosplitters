@@ -85,25 +85,26 @@ state("speed", "v1.3")
 
 init
 {
+	//Starting stopwatch from game detection point
+	vars.Stopwatch = new Stopwatch();
+	vars.Stopwatch.Start();
+	
 	//Original 1.2 speed.exe
 	if (modules.First().ModuleMemorySize == 0x67F000) {
-		Thread.Sleep(10000);
 		version = "v1.2";
 	}
 	//Original 1.3 speed.exe
 	else if (modules.First().ModuleMemorySize == 0x680000) {
-		Thread.Sleep(10000);
 		version = "v1.3";
 	}
 	//Cracked 1.3 speed.exe (RELOADED)
 	else if (modules.First().ModuleMemorySize == 0x678E4E) {
-		Thread.Sleep(10000);
 		version = "v1.3";
 	}
 }
 
 startup
-{
+{	
 	//Used for checking current split index and handling quick race mode resets
 	vars.timerModel = new TimerModel { CurrentState = timer };
 	
@@ -186,11 +187,13 @@ startup
 
 update 
 {
-	if (current.frametime.ToString("0.00000000").Remove(0, 2) != "01666667") {
+	//Checking for simrate after 10 secs of game being launched
+	if (vars.Stopwatch.Elapsed.TotalSeconds >= 10.0 && current.frametime.ToString("0.00000000").Remove(0, 2) != "01666667") {
+		vars.Stopwatch.Stop();
 		DialogResult res = MessageBox.Show("SimRate Detected", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
 	}
 
-	//Not allowing time controls if game version is not detected
+	//Not allowing time controls if game version is not detected or simrate is detected
 	if (version == "" || current.frametime.ToString("0.00000000").Remove(0, 2) != "01666667") {
 		return false;
 	}
