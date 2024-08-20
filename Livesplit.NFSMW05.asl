@@ -40,7 +40,7 @@ state("speed", "v1.2")
 	//Used for Quick Race Mode stuff
 	int raceStart : "speed.exe", 0x510EB0;
 	int raceCP : "speed.exe", 0x51CFC0, 0x44;
-	float completion : "speed.exe", 0x51CFC0, 0x30;
+	float completion : "speed.exe", 0x52ED58, 0x2F8, 0x50;
 }
 
 state("speed", "v1.3") 
@@ -80,7 +80,7 @@ state("speed", "v1.3")
 	//Used for Quick Race Mode stuff
 	int raceStart : "speed.exe", 0x511EF0;
 	int raceCP : "speed.exe", 0x51E000, 0x44;
-	float completion : "speed.exe", 0x51E000, 0x30;
+	float completion : "speed.exe", 0x52FD98, 0x2F8, 0x50;
 }
 
 init
@@ -104,12 +104,12 @@ init
 }
 
 startup
-{	
+{
 	//Used for checking current split index and handling quick race mode resets
 	vars.timerModel = new TimerModel { CurrentState = timer };
 	
 	//Contains bool values for controlling quick race mode interval splits
-	vars.percentages = new List<bool> { false, false, false, false };
+	vars.percentages = new List<bool> { false, false, false, false, false };
 
 	//Contains last race for every boss in 15 -> 1 order, used for boss split option
 	vars.lastBossRaces = new List<string>{
@@ -200,7 +200,7 @@ update
 	
 	//Used for resetting time interval splits and for the timer itself while saving golds/pb
 	if ((timer.CurrentPhase == TimerPhase.Ended || timer.CurrentPhase == TimerPhase.NotRunning) && settings["quickracemode"] && old.raceStart != current.raceStart && current.raceStart == 32767) {
-		vars.percentages = new List<bool> { false, false, false, false };
+		vars.percentages = new List<bool> { false, false, false, false, false };
 		vars.timerModel.Reset();
 	}
 }
@@ -321,11 +321,12 @@ split
 		} else if (settings["raceintervalsplit"] && (int)current.completion >= 80 && (int)current.completion < 100 && !vars.percentages[3]) {
 			vars.percentages[3] = true;
 			return true;
-		//Split after every new checkpoint in the race including finish line
-		} else if (settings["racecpsplit"] && current.raceCP != old.raceCP) {
+		//Split after every new checkpoint in the race besides finish line
+		} else if (settings["racecpsplit"] && current.raceCP != old.raceCP && !((int)current.completion >= 97 && current.raceCP == 0)) {
 			return true;
-		//Split after crossing finish line only when race checkpoint splitting is deactivated
-		} else if (current.raceState == 256 && old.raceState == 0 && current.onRace == 257 && !settings["racecpsplit"]) {
+		//Split after crossing finish line
+		} else if ((int)current.completion >= 100 && current.onRace == 257 && !vars.percentages[4]) {
+			vars.percentages[4] = true;
 			return true;
 		} else {
 			return false;
@@ -337,7 +338,7 @@ reset
 {
 	//Reset function is only used for quick race mode, handles resetting race interval splits
 	if (settings["quickracemode"] && old.raceStart != current.raceStart && current.raceStart == 32767) {
-		vars.percentages = new List<bool> { false, false, false, false };
+		vars.percentages = new List<bool> { false, false, false, false, false };
 		return true;
 	} else {
 		return false;
