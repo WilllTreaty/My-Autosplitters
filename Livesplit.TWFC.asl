@@ -5,7 +5,7 @@
 state("TWFC")
 {
 	int state : "TWFC.exe", 0x021108C4, 0x5D4;
-	bool Loading : "TWFC.exe", 0x0226F3FC, 0x3c, 0x1B4, 0x28, 0x130, 0x770;
+	bool Loading : "TWFC.exe", 0x0226F3FC, 0x3C, 0x1B4, 0x28, 0x130, 0x770;
 	int loadId: "TWFC.exe", 0x02210968, 0x538, 0x88;
 	string14 map: "TWFC.exe", 0x02246BEC, 0x9;
 	string60 checkpoint: "TWFC.exe", 0x02210968, 0x18C, 0x38, 0x2D;
@@ -21,6 +21,9 @@ startup
 
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at end of each chapter instead of doing at every new checkpoint as well.");
+	
+	settings.Add("switchcampaignsplit", false, "Switch Between Campaigns Split");
+	settings.SetToolTip("switchcampaignsplit", "Autosplitter will split when runner starts ch6, should be activated only for full campaign runs.");
 
 	settings.Add("undosplit", false, "Undo Split if aftertime death happens");
 	settings.SetToolTip("undosplit", "Autosplitter undo's a split once if runner dies after finishing either Omega Supreme boss fight at Ch5 or Trypticon boss fight at Ch10.");
@@ -209,6 +212,10 @@ split
 		} else if (settings["chapter9.trypticon"] && old.map == "a4_orb_base_mA" && old.map != current.map && !vars.Maps.Contains(current.map) && current.cutscene != 0) {
 			return true;
 		}
+		//switch between campaigns
+		else if (timer.CurrentSplitIndex > 0 && settings["switchcampaignsplit"] && old.map != current.map && current.map == "a1_iac_base_mA") {
+			return true;
+		}
 		//normal
 		else if (timer.CurrentTime.GameTime.Value.TotalSeconds >= 3 && settings[vars.splitsCheckpointName[current.checkpoint]] && vars.splitsMapName[vars.splitsCheckpointName[current.checkpoint]] == current.map && current.cutscene == 0 && old.checkpoint != current.checkpoint) {
 			return true;
@@ -224,6 +231,10 @@ split
 			return true;
 		//trypticon
 		} else if (current.map == "a5_try_base_mA" && old.trypticon != current.trypticon && current.state == 632 && current.trypticon == 0) {
+			return true;
+		} 
+		//switch between campaigns
+		else if (timer.CurrentSplitIndex > 0 && settings["switchcampaignsplit"] && old.map != current.map && current.map == "a1_iac_base_mA") {
 			return true;
 		} else {
 			return false;
