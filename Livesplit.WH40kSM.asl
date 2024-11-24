@@ -8,7 +8,7 @@ state("SpaceMarine")
 	bool loading : "SpaceMarine.exe", 0x018BD1BC;
 	int checkpoint : "SpaceMarine.exe", 0x01894D44, 0x58;
 	int chapter : "SpaceMarine.exe", 0x01894D44, 0x1D0;
-	int finalSplit: "SpaceMarine.exe", 0x01859874, 0xC, 0x30, 0x0, 0x10, 0x4;
+	int finalSplit: "SpaceMarine.exe", 0x0194E648, 0xC, 0x10, 0x72C;
 }
 
 startup
@@ -39,7 +39,7 @@ split
 		} else if (old.checkpoint != -1 && old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
 			vars.notSplitCheckpoints.Add(current.checkpoint);
 			return true;
-		} else if (current.checkpoint == 1314234 && current.finalSplit == 3 && old.finalSplit != current.finalSplit) {
+		} else if (current.checkpoint == 1314234 && current.finalSplit == 2 && old.finalSplit != current.finalSplit) {
 			return true;
 		} else {
 			return false;
@@ -53,7 +53,7 @@ split
 		} else if (old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
 			vars.notSplitCheckpoints.Add(current.checkpoint);
 			return true;
-		} else if (current.checkpoint == 1314234 && current.finalSplit == 3 && old.finalSplit != current.finalSplit) {
+		} else if (current.checkpoint == 1314234 && current.finalSplit == 2 && old.finalSplit != current.finalSplit) {
 			return true;
 		} else {
 			return false;

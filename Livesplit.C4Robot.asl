@@ -10,7 +10,6 @@ state("C4")
 
 startup
 {
-	//Used for checking current split index and handling quick race mode resets
 	vars.timerModel = new TimerModel { CurrentState = timer };
 }
 
@@ -25,7 +24,6 @@ split
 
 update 
 {
-	//Used for resetting time interval splits and for the timer itself while saving golds/pb
 	if ((timer.CurrentPhase == TimerPhase.Ended || timer.CurrentPhase == TimerPhase.NotRunning) && old.raceState != current.raceState && current.raceState == 0) {
 		vars.timerModel.Reset();
 	}
