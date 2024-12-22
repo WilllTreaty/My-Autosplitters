@@ -18,9 +18,6 @@ startup
 
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at start of each new chapter instead of doing at every new checkpoint as well.");
-	
-	settings.Add("ilmode", false, "IL Mode");
-	settings.SetToolTip("ilmode", "This option shouldn't be activated unless attempting IL runs.");
 }
 
 update
@@ -32,38 +29,22 @@ update
 
 split 
 {
-	if (settings["ilmode"]) {
-		if (old.checkpoint != -1 && old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
-			vars.notSplitCheckpoints.Add(current.checkpoint);
-			return true;
-		} else if (old.checkpoint != -1 && old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
-			vars.notSplitCheckpoints.Add(current.checkpoint);
-			return true;
-		} else if (current.checkpoint == 1314234 && current.finalSplit == 2 && old.finalSplit != current.finalSplit) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	if (!settings["ilmode"]) {
-		if (old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
-			vars.notSplitCheckpoints.Add(current.checkpoint);
-			return true;
-		} else if (old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
-			vars.notSplitCheckpoints.Add(current.checkpoint);
-			return true;
-		} else if (current.checkpoint == 1314234 && current.finalSplit == 2 && old.finalSplit != current.finalSplit) {
-			return true;
-		} else {
-			return false;
-		}
+	if (old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
+		vars.notSplitCheckpoints.Add(current.checkpoint);
+		return true;
+	} else if (old.checkpoint != current.checkpoint && vars.chapterStarts.Contains(current.checkpoint) && !vars.notSplitCheckpoints.Contains(current.checkpoint) && settings["onlychaptersplit"]) {
+		vars.notSplitCheckpoints.Add(current.checkpoint);
+		return true;
+	} else if (current.checkpoint == 1314234 && current.finalSplit == 2 && old.finalSplit != current.finalSplit) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
 start 
 {
-	if (old.chapter == 0 && current.chapter != old.chapter) {
+	if (old.chapter == 0 && current.chapter == 1) {
 		return true;
 	} else {
 		return false;
@@ -72,7 +53,7 @@ start
 
 reset
 {
-	if (current.chapter == 0 && current.chapter != old.chapter) {
+	if (current.chapter == 1 && old.chapter == 0) {
 		return true;
 	} else {
 		return false;
