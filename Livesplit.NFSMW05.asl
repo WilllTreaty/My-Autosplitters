@@ -1,5 +1,5 @@
 /*
- *	Autosplitter and Load Remover by TDOG20, Jigsaw, Balathruin & WillTreaty
+ *	Autosplitter and Load Remover by TDOG20, Jigsaw, Balathruin and WillTreaty
  */
 
 state("speed", "v1.2") 
@@ -85,10 +85,6 @@ state("speed", "v1.3")
 
 init
 {
-	//Starting stopwatch from game detection point
-	vars.Stopwatch = new Stopwatch();
-	vars.Stopwatch.Start();
-	
 	//Original 1.2 speed.exe
 	if (modules.First().ModuleMemorySize == 0x67F000) {
 		version = "v1.2";
@@ -183,48 +179,34 @@ startup
 	
 	settings.Add("bridgejumpsplit", true, "Bridge Jump Split", "commonsettings");
 	settings.SetToolTip("bridgejumpsplit", "Split when you trigger the bridge jump cutscene.");
+	
+    if (timer.CurrentTimingMethod == TimingMethod.RealTime) {
+        var timingMessage = MessageBox.Show(
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"
+            + "LiveSplit is currently set to show Real Time (RTA).\n"
+            + "Would you like to set the timing method to Game Time?",
+            "Need for Speed: Most Wanted | LiveSplit",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question
+        );
+
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.GameTime;
+        }
+    }	
 }
 
 update 
 {
-	//Checking for simrate after 10 secs of game being launched
-	if (vars.Stopwatch.Elapsed.TotalSeconds >= 10.0 && current.frametime.ToString("0.00000000").Remove(0, 2) != "01666667") {
-		vars.Stopwatch.Stop();
-		DialogResult res = MessageBox.Show("SimRate Detected", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-	}
-
-	//Not allowing time controls if game version is not detected or simrate is detected
-	if (version == "" || current.frametime.ToString("0.00000000").Remove(0, 2) != "01666667") {
+	//Not allowing time controls if game version is not detected
+	if (version == "") {
 		return false;
 	}
 	
-	//Used for resetting time interval splits and for the timer itself while saving golds/pb
+	//Used with quick race mode for resetting time interval splits and for the timer itself while saving golds/pb
 	if ((timer.CurrentPhase == TimerPhase.Ended || timer.CurrentPhase == TimerPhase.NotRunning) && settings["quickracemode"] && old.raceStart != current.raceStart && current.raceStart == 32767) {
 		vars.percentages = new List<bool> { false, false, false, false, false };
 		vars.timerModel.Reset();
-	}
-}
-
-isLoading
-{
-	//Every normal loading screen
-	if (current.loadingScreen1 == 32767 || current.loadingScreen2 == 24 || current.loadingScreen2 == 0 || current.gamestateID == 16) {
-		return true;
-	}
-	//Special loading screen being: entering the safe house for the first time and entering free roam for the first time
-	//Still needs fixing timer being paused until player continues even though loading has been completed
-	else if (current.gamestateID == 32) {
-		//Exclude FMVs from being counted to loadless
-		if (current.loadingScreen2 == 34) {
-			return false;
-		} else {
-			return true;
-		}
-	//Loading screens for mid race restarts	
-	} else if (current.onRace == 257 && current.restartLoad) {
-		return true;
-	} else {
-		return false;
 	}
 }
 
@@ -331,6 +313,29 @@ split
 		} else {
 			return false;
 		}
+	}
+}
+
+isLoading
+{
+	//Every normal loading screen
+	if (current.loadingScreen1 == 32767 || current.loadingScreen2 == 24 || current.loadingScreen2 == 0 || current.gamestateID == 16) {
+		return true;
+	}
+	//Special loading screen being: entering the safe house for the first time and entering free roam for the first time
+	//Still needs fixing timer being paused until player continues even though loading has been completed
+	else if (current.gamestateID == 32) {
+		//Exclude FMVs from being counted to loadless
+		if (current.loadingScreen2 == 34) {
+			return false;
+		} else {
+			return true;
+		}
+	//Loading screens for mid race restarts	
+	} else if (current.onRace == 257 && current.restartLoad) {
+		return true;
+	} else {
+		return false;
 	}
 }
 

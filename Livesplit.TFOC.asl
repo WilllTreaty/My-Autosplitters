@@ -1,5 +1,5 @@
 /*
- *	Autosplitter and Loadless Remover done by Breadn and WillTreaty
+ *	Autosplitter and Load Remover done by Breadn and WillTreaty
  */
 
 state("TFOC")
@@ -20,6 +20,21 @@ startup
 
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at end of each chapter instead of doing at every new checkpoint as well.");
+	
+    if (timer.CurrentTimingMethod == TimingMethod.RealTime) {
+        var timingMessage = MessageBox.Show(
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"
+            + "LiveSplit is currently set to show Real Time (RTA).\n"
+            + "Would you like to set the timing method to Game Time?",
+            "Transformers: Fall of Cybertron | LiveSplit",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question
+        );
+
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.GameTime;
+        }
+    }
 }
 
 update
@@ -34,6 +49,16 @@ update
 
 	if (current.checkpoint == "el.Checkpoint_1523" && current.megatron > old.megatron && vars.counter<4) {
 		vars.counter++;
+	}
+}
+
+start 
+{
+	if (current.loadId == 0 && current.Loading == 1 && vars.startFlag) {
+		vars.startFlag = false;
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -55,11 +80,11 @@ split
 	}
 }
 
-start 
+isLoading
 {
-	if (current.loadId == 0 && current.Loading == 1 && vars.startFlag) {
-		vars.startFlag = false;
-		return true;
+	if (current.Loading == 2 || vars.stopTimer) {	
+		vars.counter = 0;
+		return current.Loading == 2 || vars.stopTimer;
 	} else {
 		return false;
 	}
@@ -69,16 +94,6 @@ reset
 {
 	if ((current.loadId == 9 || current.loadId == 2) && !string.IsNullOrEmpty(current.checkpoint)) {
 		return true;
-	} else {
-		return false;
-	}
-}
-
-isLoading
-{
-	if (current.Loading == 2 || vars.stopTimer) {	
-		vars.counter = 0;
-		return current.Loading == 2 || vars.stopTimer;
 	} else {
 		return false;
 	}

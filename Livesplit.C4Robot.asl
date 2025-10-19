@@ -8,9 +8,13 @@ state("C4")
 	int raceState : "acknex.dll", 0x218DEC, 0x490, 0x10;
 }
 
-startup
+start 
 {
-	vars.timerModel = new TimerModel { CurrentState = timer };
+	if (current.raceState == 1024 && current.raceState != old.raceState) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 split
@@ -18,22 +22,6 @@ split
 	if (old.checkpoint != current.checkpoint) {
 		return true;
 	} else { 
-		return false;
-	}
-}
-
-update 
-{
-	if ((timer.CurrentPhase == TimerPhase.Ended || timer.CurrentPhase == TimerPhase.NotRunning) && old.raceState != current.raceState && current.raceState == 0) {
-		vars.timerModel.Reset();
-	}
-}
-
-start 
-{
-	if (current.raceState == 1024 && current.raceState != old.raceState) {
-		return true;
-	} else {
 		return false;
 	}
 }

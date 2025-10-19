@@ -1,5 +1,5 @@
 /*
- *	Autosplitter and Loadless Remover done by WillTreaty
+ *	Autosplitter and Load Remover done by WillTreaty
  */
 
 state("TransformersDevastation")
@@ -9,20 +9,20 @@ state("TransformersDevastation")
 	int start : 0xA04F14, 0x72C, 0x130;
 }
 
-split
-{
-	if (current.missionComplete == 1 && old.missionComplete != current.missionComplete) {
-		return true;
-	} else { 
-		return false;
-	}
-}
-
 start 
 {
 	if (current.start == 2 && current.start != old.start) {
 		return true;
 	} else {
+		return false;
+	}
+}
+
+split
+{
+	if (current.missionComplete == 1 && old.missionComplete != current.missionComplete) {
+		return true;
+	} else { 
 		return false;
 	}
 }

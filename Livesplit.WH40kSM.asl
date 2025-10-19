@@ -1,5 +1,5 @@
 /*
- *	Autosplitter and Loadless Remover done by Failracer and WillTreaty
+ *	Autosplitter and Load Remover done by Failracer and WillTreaty
  */
 
 state("SpaceMarine")
@@ -27,6 +27,15 @@ update
 	}
 }
 
+start 
+{
+	if (old.chapter == 0 && current.chapter == 1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 split 
 {
 	if (old.checkpoint != current.checkpoint && !vars.notSplitCheckpoints.Contains(current.checkpoint) && !settings["onlychaptersplit"]) {
@@ -42,9 +51,9 @@ split
 	}
 }
 
-start 
+isLoading 
 {
-	if (old.chapter == 0 && current.chapter == 1) {
+	if (current.loading || current.loadingScreen == 2) {
 		return true;
 	} else {
 		return false;
@@ -54,15 +63,6 @@ start
 reset
 {
 	if (current.chapter == 1 && old.chapter == 0) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-isLoading 
-{
-	if (current.loading || current.loadingScreen == 2) {
 		return true;
 	} else {
 		return false;

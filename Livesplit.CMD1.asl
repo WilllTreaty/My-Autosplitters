@@ -1,5 +1,5 @@
 /*
- *	Autosplitter and Loadless done by coyotl, Failracer and WillTreaty
+ *	Autosplitter and Load Remover done by coyotl, Failracer and WillTreaty
  */
 
 state("dirt")
@@ -37,6 +37,21 @@ startup
 
 	settings.Add("ilmode", false, "IL Mode");
 	settings.SetToolTip("ilmode", "Split, reset, autostart behaviors all changes to work with time trial race mode (in rally world menu) specifically. Splits when in-race checkpoints reached and game time comparison should be used. Should be activated ONLY during IL attempts.");
+	
+    if (timer.CurrentTimingMethod == TimingMethod.RealTime) {
+        var timingMessage = MessageBox.Show(
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"
+            + "LiveSplit is currently set to show Real Time (RTA).\n"
+            + "Would you like to set the timing method to Game Time?",
+            "Dirt 1 | LiveSplit",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question
+        );
+
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.GameTime;
+        }
+    }
 }
 
 update
@@ -111,18 +126,18 @@ split
 	}
 }
 
-reset
-{
-	if (settings["ilmode"] && old.raceStart != current.raceStart && current.raceStart == 0) {
-		return true;
-	}
-}
-
 isLoading
 {
 	if (settings["ilmode"]) {
 		return true;
 	} else {
 		return current.loading;
+	}
+}
+
+reset
+{
+	if (settings["ilmode"] && old.raceStart != current.raceStart && current.raceStart == 0) {
+		return true;
 	}
 }

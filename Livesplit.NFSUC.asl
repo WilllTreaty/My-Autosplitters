@@ -1,14 +1,14 @@
 /*
- *	Autosplitter and Loadless Remover done by Failracer, TDOG20 and WillTreaty
+ *	Autosplitter and Load Remover done by Failracer, TDOG20 and WillTreaty
  */
 
 state("nfs") 
 {
-	string12 raceNameButCooler: "nfs.exe", 0x99B7E4, 0x18, 0x3C;
+	string12 raceName: "nfs.exe", 0x99B7E4, 0x18, 0x3C;
 	int gameState: "nfs.exe", 0xF5DF00;
 	byte completed: "nfs.exe", 0x9E5414, 0xB4;
 	byte loadingEverything: "nfs.exe", 0x9A530C;
-}  
+}
 
 startup
 {
@@ -105,7 +105,23 @@ startup
 	
 	settings.Add("showdown", true, "Showdown (experimental)", "splits");
 	settings.SetToolTip("showdown", "Split after pressing continue button in final event as it's determined on src page.");
+	
+    if (timer.CurrentTimingMethod == TimingMethod.RealTime) {
+        var timingMessage = MessageBox.Show(
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"
+            + "LiveSplit is currently set to show Real Time (RTA).\n"
+            + "Would you like to set the timing method to Game Time?",
+            "Need for Speed: Undercover | LiveSplit",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question
+        );
+
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.GameTime;
+        }
+    }
 }
+
 start
 {
 	if ((current.gameState != old.gameState && old.gameState == 412) || (old.gameState == 56 && current.loadingEverything == 96)) {
@@ -115,11 +131,11 @@ start
 
 split
 {
-	if (settings[current.raceNameButCooler] && ((current.raceNameButCooler.Contains("E") && old.gameState != current.gameState && current.gameState == 859) || (old.completed != current.completed && (current.completed == 1 || current.completed == 2) && current.gameState != 863))) {
+	if (settings[current.raceName] && ((current.raceName.Contains("E") && old.gameState != current.gameState && current.gameState == 859) || (old.completed != current.completed && (current.completed == 1 || current.completed == 2) && current.gameState != 863))) {
 		return true;
-	} else if (settings["showdown"] && current.raceNameButCooler.Equals("E315.vlt") && (current.gameState == 32 || current.gameState == 31) && current.gameState != old.gameState) {
+	} else if (settings["showdown"] && current.raceName.Equals("E315.vlt") && (current.gameState == 32 || current.gameState == 31) && current.gameState != old.gameState) {
 		return true;
-	} else if (settings["prologue"] && old.raceNameButCooler.Equals("E002.vlt") && current.raceNameButCooler.Equals("sp_c_12.vlt")) {
+	} else if (settings["prologue"] && old.raceName.Equals("E002.vlt") && current.raceName.Equals("sp_c_12.vlt")) {
 		return true;
 	} else {
 		return false;

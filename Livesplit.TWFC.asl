@@ -1,5 +1,5 @@
 /*
- *	Autosplitter and Loadless Remover done by Failracer, KC and WillTreaty
+ *	Autosplitter and Load Remover done by Failracer, KC and WillTreaty
  */
 
 state("TWFC")
@@ -166,6 +166,21 @@ startup
 	settings.Add("chapter10", true, "Chapter 10 Splits", "splits");
 	AddSplit("chapter10", "trypticon1", "Trypticon 1", "5_try_base_m.TheWorld:PersistentLevel.Checkpoint_3120", "a5_try_base_mA");
 	settings.Add("chapter10.trypticon2", true, "Trypticon 2", "chapter10");
+	
+    if (timer.CurrentTimingMethod == TimingMethod.RealTime) {
+        var timingMessage = MessageBox.Show(
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"
+            + "LiveSplit is currently set to show Real Time (RTA).\n"
+            + "Would you like to set the timing method to Game Time?",
+            "Transformers: War for Cybertron | LiveSplit",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question
+        );
+
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.GameTime;
+        }
+    }
 }
 
 update
@@ -180,6 +195,15 @@ update
 
 	if ((old.loadId == 16 || old.loadId == 15) && current.loadId == 0) {
 		vars.stopTimer = false;
+	}
+}
+
+start 
+{
+	if ((old.loadId == 16 || old.loadId == 15) && current.loadId == 0) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -242,13 +266,9 @@ split
 	}
 }
 
-start 
+isLoading
 {
-	if ((old.loadId == 16 || old.loadId == 15) && current.loadId == 0) {
-		return true;
-	} else {
-		return false;
-	}
+	return current.Loading || vars.stopTimer;
 }
 
 reset
@@ -258,11 +278,6 @@ reset
 	} else {
 		return false;
 	}
-}
-
-isLoading
-{
-	return current.Loading || vars.stopTimer;
 }
 
 exit
