@@ -13,7 +13,6 @@ state("speed", "v1.2")
 	
 	//Used for Game Over Split
 	int gameover : "speed.exe", 0x5C1220, 0x490;
-	float frametime : "speed.exe", 0x51F370, 0x20;
 
 	//Name of current FMV and NIS
 	string14 fmvName : "speed.exe", 0x51C228, 0x18, 0x68, 0x40, 0x0;
@@ -53,7 +52,6 @@ state("speed", "v1.3")
 	
 	//Used for Game Over Split
 	int gameover : "speed.exe", 0x5C2270, 0x490;
-	float frametime : "speed.exe", 0x5203B0, 0x20;
 	
 	//Name of current FMV and NIS
 	string14 fmvName : "speed.exe", 0x51D268, 0x18, 0x68, 0x40, 0x0;
