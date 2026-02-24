@@ -18,6 +18,21 @@ startup
 
 	settings.Add("onlychaptersplit", false, "Only Chapter Splits");
 	settings.SetToolTip("onlychaptersplit", "Autosplitter only splits at start of each new chapter instead of doing at every new checkpoint as well.");
+	
+	if (timer.CurrentTimingMethod == TimingMethod.RealTime) {
+        var timingMessage = MessageBox.Show(
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"
+            + "LiveSplit is currently set to show Real Time (RTA).\n"
+            + "Would you like to set the timing method to Game Time?",
+            "Warhammer 40,000: Space Marine | LiveSplit",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question
+        );
+
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.GameTime;
+        }
+    }
 }
 
 update

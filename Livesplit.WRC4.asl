@@ -48,14 +48,12 @@ split
 	if (old.igt == 0 && old.igt != current.igt) {
 		if (timer.CurrentSplitIndex == 0) {
 			float milliseconds = current.igt * 1000f;
-			int trimmedMilliseconds = ((int)milliseconds / 10) * 10;
-			vars.timeTotal = new TimeSpan(0, 0, 0, 0, trimmedMilliseconds);
+			vars.timeTotal = new TimeSpan(0, 0, 0, 0, (int)milliseconds);
 			timer.SetGameTime(vars.timeTotal);
 			return true;
 		} else {
 			float milliseconds = current.igt * 1000f;
-			int trimmedMilliseconds = ((int)milliseconds / 10) * 10;
-			vars.timeTotal += new TimeSpan(0, 0, 0, 0, trimmedMilliseconds);
+			vars.timeTotal += new TimeSpan(0, 0, 0, 0, (int)milliseconds);
 			timer.SetGameTime(vars.timeTotal);
 			return true;
 		}

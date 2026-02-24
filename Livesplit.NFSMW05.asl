@@ -191,7 +191,7 @@ startup
         {
             timer.CurrentTimingMethod = TimingMethod.GameTime;
         }
-    }	
+    }
 }
 
 update 
