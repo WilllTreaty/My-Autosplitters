@@ -8,8 +8,8 @@ state("dirt")
 	float raceComplete : "dirt.exe", 0x79F3B0, 0x18, 0x40, 0x2C, 0x2C, 0x8, 0x34;
 	string13 raceName : "dirt.exe", 0x79F3AC, 0x30, 0x18, 0x58, 0x34, 0x4, 0x8;
 	int start : "dirt.exe", 0x627450, 0x86C;
-	int raceStart : "dirt.exe", 0x813780, 0x30, 0x1C8;
-	int raceLaps : "dirt.exe", 0x811080, 0x30, 0x4, 0x230;
+	int raceStart : "dirt.exe", 0x79E084;
+	int raceLaps : "dirt.exe", 0x79F3B0, 0x18, 0x40, 0x2C, 0x2C, 0x8, 0x34;
 	int completedLaps : "dirt.exe", 0x3017E4, 0x10, 0x3A4, 0x13C;
 	string2 min : "dirt.exe", 0x27E27C, 0x2F8, 0x40, 0x8F4;
 	string2 sec : "dirt.exe", 0x27E27C, 0x2F8, 0x40, 0x8FC;
@@ -65,7 +65,7 @@ start
 {
 	if (current.start == 1 && old.start != current.start) {
 		return true;
-	} else if (settings["ilmode"] && old.raceStart != current.raceStart && current.raceStart == 1) {
+	} else if (settings["ilmode"] && old.raceStart != current.raceStart && current.raceStart == 256) {
 		return true;
 	} else {
 		return false;
