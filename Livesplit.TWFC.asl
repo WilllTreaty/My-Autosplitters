@@ -37,8 +37,12 @@ startup
 		splitId = chapter + "." + splitId;
 		
 		vars.splitsCheckpointName.Add(checkpoint, splitId);
-
-		settings.Add(splitId, true, splitDescription, chapter);	
+		
+		if (splitId == "chapter1.prelab" || splitId == "chapter3.zeta1" || splitId == "chapter3.zeta2" || splitId == "chapter6.ship") {
+			settings.Add(splitId, false, splitDescription, chapter);	
+		} else {
+			settings.Add(splitId, true, splitDescription, chapter);	
+		}
 	};
 	
 	settings.Add("splits", true, "Checkpoint Splits");
